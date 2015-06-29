@@ -304,7 +304,8 @@ Mogile.prototype.sendCommand = function(cmd, callback)
 				var response = '';
 				connection.on('data', function(data) {
 					response += data;
-					if (data[data.length - 1] === "\n") {
+					if (data[data.length - 1] === '\n') {
+						connection.end();
 						callback(null, response);
 					}
 				});
