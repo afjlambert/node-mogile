@@ -301,10 +301,15 @@ Mogile.prototype.sendCommand = function(cmd, callback)
 		});
 		connection.on('connect', function() {
 			connection.write(cmd, $this.encoding, function() {
-				connection.on('data', function(response) {
-					connection.end();
-					callback(null, response);
+				var response = '';
+				connection.on('data', function(data) {
+					response += data;
+					if (data[data.length - 1] === "\n") {
+						callback(null, response);
+					}
 				});
+
+
 			});
 		});
 	};
